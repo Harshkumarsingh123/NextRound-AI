@@ -1,0 +1,27 @@
+server:
+  port: ${PORT:8083}
+
+spring:
+  application:
+    name: INTERVIEW-SERVICE
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+groq:
+  api:
+    key: ${GROQ_API_KEY}
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+

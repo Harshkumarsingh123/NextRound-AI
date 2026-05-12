@@ -1,0 +1,29 @@
+// Placeholder for .gitignore
+# Node
+node_modules/
+dist/
+build/
+
+# React
+.vite/
+
+# Java
+target/
+*.class
+*.jar
+*.war
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Env
+.env
