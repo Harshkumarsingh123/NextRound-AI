@@ -24,4 +24,5 @@ groq:
 
 eureka:
   client:
-    enabled: false
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
