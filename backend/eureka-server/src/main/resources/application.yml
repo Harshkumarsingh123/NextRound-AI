@@ -1,23 +1,5 @@
-#server:
-#  port: ${PORT:8761}
-#
-#spring:
-#  application:
-#    name: EUREKA-SERVER
-#
-#eureka:
-#  instance:
-#    hostname: localhost
-#
-#  client:
-#    register-with-eureka: false
-#    fetch-registry: false
-#
-#
-
-
 server:
-  port: 8761
+  port: ${PORT:8761}
 
 spring:
   application:
@@ -30,3 +12,21 @@ eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
+
+
+
+#
+#server:
+#  port: 8761
+#
+#spring:
+#  application:
+#    name: EUREKA-SERVER
+#
+#eureka:
+#  instance:
+#    hostname: localhost
+#
+#  client:
+#    register-with-eureka: false
+#    fetch-registry: false
