@@ -1,5 +1,62 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: API-GATEWAY
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowedOrigins:
+                  - "http://localhost:5173"
+                  - "https://nextroundai-tau.vercel.app"
+
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - OPTIONS
+
+                allowedHeaders: "*"
+
+                allowCredentials: true
+
+          routes:
+
+            - id: auth-service
+              uri: lb://AUTH-SERVICE
+              predicates:
+                - Path=/auth/**
+
+            - id: interview-service
+              uri: lb://INTERVIEW-SERVICE
+              predicates:
+                - Path=/interviews/**
+
+            - id: coding-service
+              uri: lb://INTERVIEW-SERVICE
+              predicates:
+                - Path=/coding/**
+
+            - id: resume-service
+              uri: lb://INTERVIEW-SERVICE
+              predicates:
+                - Path=/resume/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: https://eureka-server-957l.onrender.com/eureka/
+
 #server:
-#  port: ${PORT:8080}
+#  port: 8080
 #
 #spring:
 #  application:
@@ -9,11 +66,13 @@
 #    gateway:
 #
 #      globalcors:
+#        add-to-simple-url-handler-mapping: true
+#
 #        corsConfigurations:
 #          '[/**]':
+#
 #            allowedOrigins:
 #              - "http://localhost:5173"
-#              - "https://nextroundai-tau.vercel.app"
 #
 #            allowedMethods:
 #              - GET
@@ -27,74 +86,33 @@
 #            allowCredentials: true
 #
 #      routes:
+#
+#        # AUTH SERVICE
 #        - id: auth-service
 #          uri: lb://AUTH-SERVICE
 #          predicates:
 #            - Path=/auth/**
 #
+#        # INTERVIEW SERVICE
+#        - id: interview-service
+#          uri: lb://INTERVIEW-SERVICE
+#          predicates:
+#            - Path=/interviews/**
+#
+#        # CODING SERVICE
+#        - id: coding-service
+#          uri: lb://INTERVIEW-SERVICE
+#          predicates:
+#            - Path=/coding/**
+#
+#
+#        # RESUME SERVICE
+#        - id: resume-service
+#          uri: lb://INTERVIEW-SERVICE
+#          predicates:
+#            - Path=/resume/**
+#
 #eureka:
 #  client:
 #    service-url:
-#      defaultZone: https://eureka-server-957l.onrender.com/eureka/
-
-server:
-  port: 8080
-
-spring:
-  application:
-    name: API-GATEWAY
-
-  cloud:
-    gateway:
-
-      globalcors:
-        add-to-simple-url-handler-mapping: true
-
-        corsConfigurations:
-          '[/**]':
-
-            allowedOrigins:
-              - "http://localhost:5173"
-
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - OPTIONS
-
-            allowedHeaders: "*"
-
-            allowCredentials: true
-
-      routes:
-
-        # AUTH SERVICE
-        - id: auth-service
-          uri: lb://AUTH-SERVICE
-          predicates:
-            - Path=/auth/**
-
-        # INTERVIEW SERVICE
-        - id: interview-service
-          uri: lb://INTERVIEW-SERVICE
-          predicates:
-            - Path=/interviews/**
-
-        # CODING SERVICE
-        - id: coding-service
-          uri: lb://INTERVIEW-SERVICE
-          predicates:
-            - Path=/coding/**
-
-
-        # RESUME SERVICE
-        - id: resume-service
-          uri: lb://INTERVIEW-SERVICE
-          predicates:
-            - Path=/resume/**
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
+#      defaultZone: http://localhost:8761/eureka/
