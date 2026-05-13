@@ -7,53 +7,50 @@ spring:
 
   cloud:
     gateway:
-      server:
-        webflux:
 
-          globalcors:
-            cors-configurations:
-              '[/**]':
-                allowedOrigins:
-                  - "http://localhost:5173"
-                  - "https://nextroundai-tau.vercel.app"
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:5173"
+              - "https://nextroundai-tau.vercel.app"
 
-                allowedMethods:
-                  - GET
-                  - POST
-                  - PUT
-                  - DELETE
-                  - OPTIONS
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
 
-                allowedHeaders: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
 
-                allowCredentials: true
+      routes:
 
-          routes:
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth/**
 
-            - id: auth-service
-              uri: lb://AUTH-SERVICE
-              predicates:
-                - Path=/auth/**
+        - id: interview-service
+          uri: lb://INTERVIEW-SERVICE
+          predicates:
+            - Path=/interviews/**
 
-            - id: interview-service
-              uri: lb://INTERVIEW-SERVICE
-              predicates:
-                - Path=/interviews/**
+        - id: coding-service
+          uri: lb://INTERVIEW-SERVICE
+          predicates:
+            - Path=/coding/**
 
-            - id: coding-service
-              uri: lb://INTERVIEW-SERVICE
-              predicates:
-                - Path=/coding/**
-
-            - id: resume-service
-              uri: lb://INTERVIEW-SERVICE
-              predicates:
-                - Path=/resume/**
+        - id: resume-service
+          uri: lb://INTERVIEW-SERVICE
+          predicates:
+            - Path=/resume/**
 
 eureka:
   client:
     service-url:
-      defaultZone: https://eureka-server-957l.onrender.com/eureka/
+      defaultZone: ${EUREKA_SERVER_URL}
 
 #server:
 #  port: 8080

@@ -29,3 +29,9 @@ eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_SERVER_URL}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
