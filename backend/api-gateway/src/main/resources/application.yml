@@ -1,4 +1,5 @@
 server:
+  address: 0.0.0.0
   port: ${PORT:8080}
 
 spring:
@@ -11,6 +12,7 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
+
             allowedOrigins:
               - "http://localhost:5173"
               - "https://nextroundai-tau.vercel.app"
@@ -23,34 +25,44 @@ spring:
               - OPTIONS
 
             allowedHeaders: "*"
+
             allowCredentials: true
 
       routes:
 
         - id: auth-service
-          uri: lb://AUTH-SERVICE
+          uri: https://auth-service-wgml.onrender.com
           predicates:
             - Path=/auth/**
 
         - id: interview-service
-          uri: lb://INTERVIEW-SERVICE
+          uri: https://interview-service-a1qs.onrender.com
           predicates:
             - Path=/interviews/**
 
         - id: coding-service
-          uri: lb://INTERVIEW-SERVICE
+          uri: https://interview-service-a1qs.onrender.com
           predicates:
             - Path=/coding/**
 
         - id: resume-service
-          uri: lb://INTERVIEW-SERVICE
+          uri: https://interview-service-a1qs.onrender.com
           predicates:
             - Path=/resume/**
 
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_SERVER_URL}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
 
 #server:
 #  port: 8080

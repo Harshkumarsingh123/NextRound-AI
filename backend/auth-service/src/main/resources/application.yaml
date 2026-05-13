@@ -1,4 +1,5 @@
 server:
+  address: 0.0.0.0
   port: ${PORT:8082}
 
 spring:
@@ -13,6 +14,9 @@ spring:
 
     hikari:
       maximum-pool-size: 5
+      minimum-idle: 1
+      idle-timeout: 30000
+      connection-timeout: 20000
 
   jpa:
     hibernate:
@@ -34,18 +38,9 @@ management:
     health:
       show-details: always
 
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_SERVER_URL}
-
-    register-with-eureka: true
-    fetch-registry: true
-
 jwt:
   secret: ${JWT_SECRET}
 
 logging:
   level:
     root: INFO
-
