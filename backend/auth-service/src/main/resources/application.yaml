@@ -24,14 +24,18 @@ spring:
       hibernate:
         format_sql: true
 
-eureka:
-  instance:
-    hostname: auth-service-wgml.onrender.com
-    prefer-ip-address: true
+#eureka:
+#  instance:
+#    hostname: auth-service-wgml.onrender.com
+#    prefer-ip-address: true
 
-  client:
-    service-url:
-      defaultZone: https://eureka-server-957l.onrender.com/eureka/
+  eureka:
+    client:
+      service-url:
+        defaultZone: ${EUREKA_SERVER_URL}
+
+      register-with-eureka: true
+      fetch-registry: true
 
 jwt:
   secret: ${JWT_SECRET}
