@@ -3,6 +3,7 @@ package com.interview_service.controller;
 import com.interview_service.dto.*;
 
 import com.interview_service.entity.InterviewSession;
+import com.interview_service.service.DashboardService;
 import com.interview_service.service.InterviewService;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class InterviewController {
 
     private final InterviewService interviewService;
+    private final DashboardService dashboardService;
 
     /*
      * START INTERVIEW
@@ -50,10 +52,10 @@ public class InterviewController {
     }
 
     @GetMapping("/dashboard/{userId}")
-    public InterviewSession getDashboard(
+    public AiEvaluationResponse getDashboard(
             @PathVariable Long userId
     ) {
 
-        return interviewService.getDashboard(userId);
+        return dashboardService.getDashboard(userId);
     }
 }

@@ -12,7 +12,7 @@ public class DashboardService {
 
     private final InterviewSessionRepository repository;
 
-    public AiEvaluationResponse getDashboard(
+    public AiEvaluationResponse    getDashboard(
             Long userId
     ) {
 
