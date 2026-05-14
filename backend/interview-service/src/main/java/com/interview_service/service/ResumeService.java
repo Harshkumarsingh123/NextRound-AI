@@ -55,13 +55,35 @@ public class ResumeService {
             aiResponse = aiResponse
                     .replace("```json", "")
                     .replace("```", "")
+                    .replace("\n", "")
+                    .replace("\r", "")
                     .trim();
 
-            ResumeAnalysisResponse response =
-                    objectMapper.readValue(
-                            aiResponse,
-                            ResumeAnalysisResponse.class
-                    );;
+            int start = aiResponse.indexOf("{");
+            int end = aiResponse.lastIndexOf("}");
+
+            if (start != -1 && end != -1) {
+                aiResponse = aiResponse.substring(start, end + 1);
+            }
+
+            ResumeAnalysisResponse response;
+
+            try {
+
+                response = objectMapper.readValue(
+                        aiResponse,
+                        ResumeAnalysisResponse.class
+                );
+
+            } catch (Exception ex) {
+
+                System.out.println("JSON PARSE ERROR:");
+                System.out.println(aiResponse);
+
+                throw new RuntimeException(
+                        "Invalid AI JSON Response"
+                );
+            }
 
             ResumeAnalysis analysis =
                     ResumeAnalysis.builder()
