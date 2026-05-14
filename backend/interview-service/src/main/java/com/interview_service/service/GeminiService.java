@@ -1,7 +1,10 @@
 package com.interview_service.service;
 
+import com.interview_service.dto.ResumeAnalysisResponse;
 import lombok.RequiredArgsConstructor;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.springframework.http.*;
@@ -9,7 +12,9 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -193,7 +198,7 @@ public class GeminiService {
                 ),
 
                 "temperature",
-                0.7
+                0.2
         );
 
         HttpEntity<Map<String, Object>> entity =
@@ -270,43 +275,46 @@ public class GeminiService {
     public String analyzeResume(String resumeText) {
 
         String prompt = """
-    Analyze this resume carefully.
+You are an ATS Resume Analyzer AI.
 
-    Resume:
-    %s
+Analyze this resume carefully.
 
-    IMPORTANT:
-    Return ONLY valid JSON.
-    Do NOT return markdown.
-    Do NOT return explanation.
-    Do NOT use ```json.
+Resume:
+%s
 
-    JSON FORMAT:
+STRICT RULES:
 
-    {
-      "atsScore": 85,
-      "strengths": [
-        "Strong Java backend skills",
-        "Good Spring Boot knowledge"
-      ],
-      "weaknesses": [
-        "No cloud deployment experience",
-        "Limited testing experience"
-      ],
-      "suggestions": [
-        "Add deployment projects",
-        "Improve resume summary"
-      ],
-      "interviewQuestions": [
-        "Explain Spring Security",
-        "What is JWT?"
-      ],
-      "improvedResume": "Improved resume content here"
-    }
+1. Return ONLY valid JSON
+2. Do NOT use markdown
+3. Do NOT use ```json
+4. Do NOT explain anything
 
-    Return ONLY pure JSON.
-    """.formatted(resumeText);
+REQUIRED JSON FORMAT:
+
+{
+  "atsScore": 85,
+  "strengths": [
+    "Strong Java backend skills"
+  ],
+  "weaknesses": [
+    "Limited cloud deployment"
+  ],
+  "suggestions": [
+    "Add Docker deployment project"
+  ],
+  "interviewQuestions": [
+    "Explain Spring Security"
+  ],
+  "improvedResume": "Improved professional resume summary"
+}
+
+ONLY RETURN JSON.
+""".formatted(resumeText);
 
         return callGroq(prompt);
+
     }
+
+
+
 }
